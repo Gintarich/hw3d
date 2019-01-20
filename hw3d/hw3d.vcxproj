@@ -147,7 +147,11 @@
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="ChiliException.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="ChilliTimer.cpp" />
+=======
+    <ClCompile Include="ChiliTimer.cpp" />
+>>>>>>> 4a2e05f (d3d hresult handling / window nogfx)
     <ClCompile Include="dxerr.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Keyboard.cpp" />
@@ -160,7 +164,10 @@
     <ClInclude Include="App.h" />
     <ClInclude Include="ChiliException.h" />
     <ClInclude Include="ChiliWin.h" />
+<<<<<<< HEAD
     <ClInclude Include="ChilliTimer.h" />
+=======
+>>>>>>> 4a2e05f (d3d hresult handling / window nogfx)
     <ClInclude Include="dxerr.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Keyboard.h" />
@@ -179,7 +186,10 @@
     <None Include="DXGetErrorDescription.inl" />
     <None Include="DXGetErrorString.inl" />
     <None Include="DXTrace.inl" />
+<<<<<<< HEAD
     <None Include="hw3d.aps" />
+=======
+>>>>>>> 4a2e05f (d3d hresult handling / window nogfx)
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
