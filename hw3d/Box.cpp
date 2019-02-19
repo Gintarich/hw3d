@@ -1,65 +1,47 @@
 #include "Box.h"
 #include "BindableBase.h"
 #include "GraphicsThrowMacros.h"
+#include "Sphere.h"
 
-Box::Box(Graphics& gfx,
-		 std::mt19937& rng,
-		 std::uniform_real_distribution<float>& adist,
-		 std::uniform_real_distribution<float>& ddist,
-		 std::uniform_real_distribution<float>& odist,
-		 std::uniform_real_distribution<float>& rdist)
+
+Box::Box( Graphics& gfx,
+	std::mt19937& rng,
+	std::uniform_real_distribution<float>& adist,
+	std::uniform_real_distribution<float>& ddist,
+	std::uniform_real_distribution<float>& odist,
+	std::uniform_real_distribution<float>& rdist )
 	:
-	r(rdist(rng)),
-	droll(ddist(rng)),
-	dpitch(ddist(rng)),
-	dyaw(ddist(rng)),
-	dphi(odist(rng)),
-	dtheta(odist(rng)),
-	dchi(odist(rng)),
-	chi(adist(rng)),
-	theta(adist(rng)),
-	phi(adist(rng))
+	r( rdist( rng ) ),
+	droll( ddist( rng ) ),
+	dpitch( ddist( rng ) ),
+	dyaw( ddist( rng ) ),
+	dphi( odist( rng ) ),
+	dtheta( odist( rng ) ),
+	dchi( odist( rng ) ),
+	chi( adist( rng ) ),
+	theta( adist( rng ) ),
+	phi( adist( rng ) )
 {
+	namespace dx = DirectX;
+
 	if( !IsStaticInitialized() )
 	{
 		struct Vertex
 		{
-			struct
-			{
-				float x;
-				float y;
-				float z;
-			} pos;
+			dx::XMFLOAT3 pos;
 		};
-		const std::vector<Vertex> vertices =
-		{
-			{ -1.0f,-1.0f,-1.0f },
-			{ 1.0f,-1.0f,-1.0f },
-			{ -1.0f,1.0f,-1.0f },
-			{ 1.0f,1.0f,-1.0f },
-			{ -1.0f,-1.0f,1.0f },
-			{ 1.0f,-1.0f,1.0f },
-			{ -1.0f,1.0f,1.0f },
-			{ 1.0f,1.0f,1.0f },
-		};
-		AddStaticBind(std::make_unique<VertexBuffer>(gfx, vertices));
+		auto model = Sphere::Make<Vertex>();
+		model.Transform( dx::XMMatrixScaling( 1.0f,1.0f,1.2f ) );
 
-		auto pvs = std::make_unique<VertexShader>(gfx, L"VertexShader.cso");
+		AddStaticBind( std::make_unique<VertexBuffer>( gfx,model.vertices ) );
+
+		auto pvs = std::make_unique<VertexShader>( gfx,L"VertexShader.cso" );
 		auto pvsbc = pvs->GetBytecode();
-		AddStaticBind(std::move(pvs));
+		AddStaticBind( std::move( pvs ) );
 
-		AddStaticBind(std::make_unique<PixelShader>(gfx, L"PixelShader.cso"));
+		AddStaticBind( std::make_unique<PixelShader>( gfx,L"PixelShader.cso" ) );
 
-		const std::vector<unsigned short> indices =
-		{
-			0,2,1, 2,3,1,
-			1,3,5, 3,7,5,
-			2,6,3, 3,6,7,
-			4,5,7, 4,7,6,
-			0,4,2, 2,4,6,
-			0,1,4, 1,5,4
-		};
-		AddStaticIndexBuffer(std::make_unique<IndexBuffer>(gfx, indices));
+		AddStaticIndexBuffer( std::make_unique<IndexBuffer>( gfx,model.indices ) );
 
 		struct ConstantBuffer2
 		{
@@ -69,7 +51,7 @@ Box::Box(Graphics& gfx,
 				float g;
 				float b;
 				float a;
-			} face_colors[ 6 ];
+			} face_colors[6];
 		};
 		const ConstantBuffer2 cb2 =
 		{
@@ -82,25 +64,25 @@ Box::Box(Graphics& gfx,
 				{ 0.0f,1.0f,1.0f },
 			}
 		};
-		AddStaticBind(std::make_unique<PixelConstantBuffer<ConstantBuffer2>>(gfx, cb2));
+		AddStaticBind( std::make_unique<PixelConstantBuffer<ConstantBuffer2>>( gfx,cb2 ) );
 
 		const std::vector<D3D11_INPUT_ELEMENT_DESC> ied =
 		{
 			{ "Position",0,DXGI_FORMAT_R32G32B32_FLOAT,0,0,D3D11_INPUT_PER_VERTEX_DATA,0 },
 		};
-		AddStaticBind(std::make_unique<InputLayout>(gfx, ied, pvsbc));
+		AddStaticBind( std::make_unique<InputLayout>( gfx,ied,pvsbc ) );
 
-		AddStaticBind(std::make_unique<Topology>(gfx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
+		AddStaticBind( std::make_unique<Topology>( gfx,D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST ) );
 	}
 	else
 	{
 		SetIndexFromStatic();
 	}
 
-	AddBind(std::make_unique<TransformCbuf>(gfx, *this));
+	AddBind( std::make_unique<TransformCbuf>( gfx,*this ) );
 }
 
-void Box::Update(float dt) noexcept
+void Box::Update( float dt ) noexcept
 {
 	roll += droll * dt;
 	pitch += dpitch * dt;
@@ -112,8 +94,8 @@ void Box::Update(float dt) noexcept
 
 DirectX::XMMATRIX Box::GetTransformXM() const noexcept
 {
-	return DirectX::XMMatrixRotationRollPitchYaw(pitch, yaw, roll) *
-		DirectX::XMMatrixTranslation(r, 0.0f, 0.0f) *
-		DirectX::XMMatrixRotationRollPitchYaw(theta, phi, chi) *
-		DirectX::XMMatrixTranslation(0.0f, 0.0f, 20.0f);
+	return DirectX::XMMatrixRotationRollPitchYaw( pitch,yaw,roll ) *
+		DirectX::XMMatrixTranslation( r,0.0f,0.0f ) *
+		DirectX::XMMatrixRotationRollPitchYaw( theta,phi,chi ) *
+		DirectX::XMMatrixTranslation( 0.0f,0.0f,20.0f );
 }
