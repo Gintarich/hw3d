@@ -143,7 +143,7 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 			/****************** KEYBOARD MESSAGES ******************/
 			//| this means either keydown or syskeyup
 		case WM_KEYDOWN:
-			[[fallthrough]];
+			[[fallthrough]];// Attribute to disable warnings
 		case WM_SYSKEYDOWN:
 			//Filter for autorepeating
 			if( !( lParam & 0x40000000 ) || kbd.AutorepeatIsEnabled() ) // "lParam & 0x40000000"=>if key was not pressed before
