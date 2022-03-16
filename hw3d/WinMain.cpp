@@ -37,6 +37,7 @@ int CALLBACK WinMain(
 			// TranslateMessage will post auxilliary WM_CHAR messages from key msgs
 			TranslateMessage( &msg );
 			DispatchMessage( &msg );
+			//TODO check if space was pressed , add message box;
 		}
 
 		// check if GetMessage call itself borked

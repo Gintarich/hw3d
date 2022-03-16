@@ -138,6 +138,7 @@ LRESULT Window::HandleMsg( HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam ) noex
 		PostQuitMessage( 0 );
 		return 0;
 	}
+	//TODO: add cases for WM_KEYDOWN, WM_KEYUP, WM_CHAR, by calling keyboard functions
 
 	return DefWindowProc( hWnd,msg,wParam,lParam );
 }
