@@ -9,7 +9,7 @@ public:
 	class Event
 	{
 	public:
-		enum Type
+		enum class Type
 		{
 			Press,
 			Release,
@@ -19,7 +19,7 @@ public:
 		Type m_type;
 		unsigned char m_code;
 	public:
-		Event() : m_type(Type::Invalid), m_code(0u)
+		Event() : m_type(Keyboard::Event::Type::Invalid), m_code(0u)
 		{
 		}
 		Event(Type type, unsigned char code) : m_type(type), m_code(code)

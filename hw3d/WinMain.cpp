@@ -37,6 +37,10 @@ int CALLBACK WinMain(
 			// TranslateMessage will post auxilliary WM_CHAR messages from key msgs
 			TranslateMessage( &msg );
 			DispatchMessage( &msg );
+			if( wnd.kbd.KeyIsPressed('F') )
+			{
+				MessageBoxA(nullptr, "ffffffff", "F was pressed", MB_OK | MB_ICONEXCLAMATION);
+			}
 			//TODO check if space was pressed , add message box;
 		}
 
@@ -47,7 +51,7 @@ int CALLBACK WinMain(
 		}
 
 		// wParam here is the value passed to PostQuitMessage
-		return msg.wParam;
+		return static_cast<int>(msg.wParam);
 	}
 	catch( const ChiliException& e )
 	{
