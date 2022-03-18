@@ -102,6 +102,7 @@ private:
 	void OnWheelUp(int x, int y)noexcept;
 	void OnWheelDown(int x, int y)noexcept;
 	void TrimBuffer() noexcept;
+	void OnWheelDelta(int x, int y, int delta);
 private:
 	static constexpr unsigned int m_bufferSize = 16u;
 	int m_x;
@@ -109,6 +110,7 @@ private:
 	bool m_leftIsPressed = false;
 	bool m_rightIsPressed = false;
 	bool m_isInWindow = false;
+	int m_wheelDeltaCarry = 0;
 	std::queue<Event> m_buffer;
 };
 

@@ -1,4 +1,5 @@
 #include "Mouse.h"
+#include "ChiliWin.h"
 
 std::pair<int, int> Mouse::GetPos() const noexcept
 {
@@ -120,6 +121,22 @@ void Mouse::TrimBuffer() noexcept
 	while( m_buffer.size() > m_bufferSize )
 	{
 		m_buffer.pop();
+	}
+}
+
+void Mouse::OnWheelDelta(int x, int y, int delta)
+{
+	m_wheelDeltaCarry += delta;
+	// generate events for every 120
+	while( m_wheelDeltaCarry >= WHEEL_DELTA )
+	{
+		m_wheelDeltaCarry -= WHEEL_DELTA;
+		OnWheelUp(x, y);
+	}
+	while( m_wheelDeltaCarry <= -WHEEL_DELTA )
+	{
+		m_wheelDeltaCarry += WHEEL_DELTA;
+		OnWheelDown(x, y);
 	}
 }
 
