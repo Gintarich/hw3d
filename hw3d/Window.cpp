@@ -77,10 +77,10 @@ Window::Window(int width, int height, const char* name)
 	wr.right = width + wr.left;
 	wr.top = 100;
 	wr.bottom = height + wr.top;
-	if( FAILED(AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE)) )
+	if( AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE) )
 	{
 		throw CHWND_LAST_EXCEPT();
-	};
+	}
 	// create window & get hWnd
 	hWnd = CreateWindow(
 		WindowClass::GetName(), name,
@@ -100,6 +100,14 @@ Window::Window(int width, int height, const char* name)
 Window::~Window()
 {
 	DestroyWindow(hWnd);
+}
+
+void Window::SetTitle(const std::string title)
+{
+	if( SetWindowText(hWnd, title.c_str()) == 0 )
+	{
+		throw CHWND_LAST_EXCEPT();
+	}
 }
 
 LRESULT CALLBACK Window::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
@@ -195,7 +203,7 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 		case WM_MOUSEWHEEL:
 		{
 			const POINTS pt = MAKEPOINTS(lParam);
-			if( GET_WHEEL_DELTA_WPARAM(wParam) > 0)
+			if( GET_WHEEL_DELTA_WPARAM(wParam) > 0 )
 			{
 				mouse.OnWheelUp(pt.x, pt.y);
 			}
