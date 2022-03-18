@@ -18,7 +18,7 @@
 *	along with The Chili Direct3D Engine.  If not, see <http://www.gnu.org/licenses/>.    *
 ******************************************************************************************/
 #include "Window.h"
-
+#include <sstream>
 
 int CALLBACK WinMain(
 	HINSTANCE hInstance,
@@ -37,6 +37,18 @@ int CALLBACK WinMain(
 			// TranslateMessage will post auxilliary WM_CHAR messages from key msgs
 			TranslateMessage( &msg );
 			DispatchMessage( &msg );
+
+			while( !wnd.mouse.IsEmpty() )
+			{
+				const auto e = wnd.mouse.Read();
+				if( e.GetType() == Mouse::Event::Type::Move )
+				{
+					std::ostringstream stream;
+					stream << "Mouse Position: (" << e.GetPosX() << "," << e.GetPosY() << ")";
+					wnd.SetTitle(stream.str());
+				}
+			}
+
 			if( wnd.kbd.KeyIsPressed('F') )
 			{
 				MessageBoxA(nullptr, "ffffffff", "F was pressed", MB_OK | MB_ICONEXCLAMATION);
