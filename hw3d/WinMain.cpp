@@ -28,6 +28,7 @@ int CALLBACK WinMain(
 {
 	try
 	{
+		//Direct3D Hype
 		return App{ }.Go();
 	}
 	catch( const ChiliException& e )
