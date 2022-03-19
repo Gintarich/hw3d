@@ -106,7 +106,7 @@ Window::~Window()
 	DestroyWindow(hWnd);
 }
 
-void Window::SetTitle(const std::string title)
+void Window::SetTitle(const std::string& title)
 {
 	if( SetWindowText(hWnd, title.c_str()) == 0 )
 	{
