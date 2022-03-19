@@ -91,11 +91,11 @@ Graphics::~Graphics()
 
 void Graphics::EndFrame()
 {
+	HRESULT hr;
 #ifndef NDEBUG
 	infoManager.Set();
 #endif
 
-	HRESULT hr;
 	if( FAILED(hr = m_pSwap->Present(1u, 0u)) )
 	{
 		if( hr == DXGI_ERROR_DEVICE_REMOVED )
