@@ -38,10 +38,19 @@ Graphics::Graphics(HWND hWnd)
 		nullptr,
 		&m_pContext
 	);
+	// gain  access to texture subresource in swap chain (back buffer)
+	ID3D11Resource* pBackBuffer = nullptr;
+	m_pSwap->GetBuffer(0, __uuidof( ID3D11Resource ), reinterpret_cast< void** >( &pBackBuffer ));
+	m_pDevice->CreateRenderTargetView(pBackBuffer, nullptr, &m_pTarget);
+	pBackBuffer->Release();
 }
 
 Graphics::~Graphics()
 {
+	if( m_pTarget != nullptr )
+	{
+		m_pTarget->Release();
+	}
 	if( m_pContext != nullptr )
 	{
 		m_pContext->Release();
@@ -54,4 +63,9 @@ Graphics::~Graphics()
 	{
 		m_pDevice->Release();
 	}
+}
+
+void Graphics::EndFrame()
+{
+	m_pSwap->Present( 1u,0u );
 }
