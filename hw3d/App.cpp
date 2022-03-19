@@ -30,4 +30,8 @@ int App::Go()
 
 void App::DoFrame()
 {
+	const float t = m_timer.Peek();
+	std::ostringstream oss;
+	oss << "Time elapsed: " << std::setprecision(1) << std::fixed << t << "s";
+	m_wnd.SetTitle(oss.str());
 }
