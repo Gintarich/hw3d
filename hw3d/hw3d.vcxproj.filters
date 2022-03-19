@@ -95,13 +95,14 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <None Include="DXGetErrorDescription.inl">
+    <None Include="hw3d.aps" />
+    <None Include="DXTrace.inl">
       <Filter>Dxerr</Filter>
     </None>
     <None Include="DXGetErrorString.inl">
       <Filter>Dxerr</Filter>
     </None>
-    <None Include="DXTrace.inl">
+    <None Include="DXGetErrorDescription.inl">
       <Filter>Dxerr</Filter>
     </None>
   </ItemGroup>
