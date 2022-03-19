@@ -95,22 +95,13 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
-    <None Include="hw3d.aps" />
-    <None Include="DXTrace.inl">
-=======
     <None Include="DXGetErrorDescription.inl">
->>>>>>> 4a2e05f (d3d hresult handling / window nogfx)
       <Filter>Dxerr</Filter>
     </None>
     <None Include="DXGetErrorString.inl">
       <Filter>Dxerr</Filter>
     </None>
-<<<<<<< HEAD
-    <None Include="DXGetErrorDescription.inl">
-=======
     <None Include="DXTrace.inl">
->>>>>>> 4a2e05f (d3d hresult handling / window nogfx)
       <Filter>Dxerr</Filter>
     </None>
   </ItemGroup>

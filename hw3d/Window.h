@@ -73,13 +73,8 @@ public:
 	~Window();
 	Window( const Window& ) = delete;
 	Window& operator=( const Window& ) = delete;
-<<<<<<< HEAD
-	void SetTitle(const std::string title);
-	static std::optional<int> ProcessMessages();
-=======
 	void SetTitle( const std::string& title );
 	static std::optional<int> ProcessMessages() noexcept;
->>>>>>> 4a2e05f (d3d hresult handling / window nogfx)
 	Graphics& Gfx();
 private:
 	static LRESULT CALLBACK HandleMsgSetup( HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam ) noexcept;

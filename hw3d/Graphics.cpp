@@ -31,9 +31,6 @@ Graphics::Graphics( HWND hWnd )
 	// for checking results of d3d functions
 	HRESULT hr;
 
-	// for checking results of d3d functions
-	HRESULT hr;
-
 	// create device and front/back buffers, and swap chain and rendering context
 	GFX_THROW_FAILED( D3D11CreateDeviceAndSwapChain(
 		nullptr,
@@ -47,25 +44,12 @@ Graphics::Graphics( HWND hWnd )
 		&m_pSwap,
 		&m_pDevice,
 		nullptr,
-<<<<<<< HEAD
 		&m_pContext
-	);
-	// gain  access to texture subresource in swap chain (back buffer)
-	ID3D11Resource* pBackBuffer = nullptr;
-	GFX_THROW_FAILED( pSwap->GetBuffer( 0,__uuidof(ID3D11Texture2D),reinterpret_cast<void**>(&pBackBuffer) ) );
-	GFX_THROW_FAILED( pDevice->CreateRenderTargetView( pBackBuffer,nullptr,&pTarget ) );
-		pBackBuffer,
-		nullptr,
-		&pTarget
-	);
-=======
-		&pContext
 	) );
 	// gain access to texture subresource in swap chain (back buffer)
 	ID3D11Resource* pBackBuffer = nullptr;
-	GFX_THROW_FAILED( pSwap->GetBuffer( 0,__uuidof(ID3D11Texture2D),reinterpret_cast<void**>(&pBackBuffer) ) );
-	GFX_THROW_FAILED( pDevice->CreateRenderTargetView( pBackBuffer,nullptr,&pTarget ) );
->>>>>>> 4a2e05f (d3d hresult handling / window nogfx)
+	GFX_THROW_FAILED( m_pSwap->GetBuffer( 0,__uuidof(ID3D11Texture2D),reinterpret_cast<void**>(&pBackBuffer) ) );
+	GFX_THROW_FAILED( m_pDevice->CreateRenderTargetView( pBackBuffer,nullptr,&pTarget ) );
 	pBackBuffer->Release();
 }
 
@@ -87,32 +71,16 @@ Graphics::~Graphics()
 	{
 		m_pDevice->Release();
 	}
-	HRESULT hr;
-	if( FAILED( hr = pSwap->Present( 1u,0u ) ) )
-	{
-		if( hr == DXGI_ERROR_DEVICE_REMOVED )
-		{
-			throw GFX_DEVICE_REMOVED_EXCEPT( pDevice->GetDeviceRemovedReason() );
-		}
-		else
-		{
-			GFX_THROW_FAILED( hr );
-		}
-	}
 }
 
-void Graphics::ClearBuffer( float red,float green,float blue ) noexcept
+void Graphics::EndFrame()
 {
-<<<<<<< HEAD
-	const float color[] = { red,green,blue,1.0f };
-	pContext->ClearRenderTargetView( pTarget,color );
-=======
 	HRESULT hr;
-	if( FAILED( hr = pSwap->Present( 1u,0u ) ) )
+	if( FAILED( hr = m_pSwap->Present( 1u,0u ) ) )
 	{
 		if( hr == DXGI_ERROR_DEVICE_REMOVED )
 		{
-			throw GFX_DEVICE_REMOVED_EXCEPT( pDevice->GetDeviceRemovedReason() );
+			throw GFX_DEVICE_REMOVED_EXCEPT( m_pDevice->GetDeviceRemovedReason() );
 		}
 		else
 		{
@@ -121,7 +89,6 @@ void Graphics::ClearBuffer( float red,float green,float blue ) noexcept
 	}
 }
 
->>>>>>> 4a2e05f (d3d hresult handling / window nogfx)
 void Graphics::ClearBuffer( float red,float green,float blue ) noexcept
 {
 	const float color[] = { red,green,blue,1.0f };

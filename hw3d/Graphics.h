@@ -6,11 +6,6 @@
 class Graphics
 {
 public:
-<<<<<<< HEAD
-	Graphics(HWND hWnd);
-	Graphics(const Graphics&) = delete;
-	Graphics& operator=(const Graphics&) = delete;
-=======
 	class Exception : public ChiliException
 	{
 		using ChiliException::ChiliException;
@@ -34,17 +29,12 @@ public:
 		const char* GetType() const noexcept override;
 	};
 public:
-	Graphics( HWND hWnd );
-	Graphics( const Graphics& ) = delete;
-	Graphics& operator=( const Graphics& ) = delete;
->>>>>>> 4a2e05f (d3d hresult handling / window nogfx)
+	Graphics(HWND hWnd);
+	Graphics(const Graphics&) = delete;
+	Graphics& operator=(const Graphics&) = delete;
 	~Graphics();
 	void EndFrame();
-	void ClearBuffer(float red, float green, float blue) noexcept
-	{
-		const float color[] = { red,green,blue,1.0f };
-		m_pContext->ClearRenderTargetView(m_pTarget, color);
-	}
+	void ClearBuffer( float red,float green,float blue ) noexcept;
 private:
 	ID3D11Device* m_pDevice = nullptr;
 	IDXGISwapChain* m_pSwap = nullptr;

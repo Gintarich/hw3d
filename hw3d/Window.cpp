@@ -137,15 +137,11 @@ std::optional<int> Window::ProcessMessages() noexcept
 
 Graphics& Window::Gfx()
 {
-<<<<<<< HEAD
-	return *m_pGfx;
-=======
-	if( !pGfx )
+	if( !m_pGfx )
 	{
 		throw CHWND_NOGFX_EXCEPT();
 	}
-	return *pGfx;
->>>>>>> 4a2e05f (d3d hresult handling / window nogfx)
+	return *m_pGfx;
 }
 
 LRESULT CALLBACK Window::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
@@ -286,34 +282,7 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 
 
 // Window Exception Stuff
-<<<<<<< HEAD
-Window::Exception::Exception(int line, const char* file, HRESULT hr) noexcept
-	:
-	ChiliException(line, file),
-	hr(hr)
-{
-}
-
-const char* Window::Exception::what() const noexcept
-{
-	std::ostringstream oss;
-	oss << GetType() << std::endl
-		<< "[Error Code] " << GetErrorCode() << std::endl
-		<< "[Description] " << GetErrorString() << std::endl
-		<< GetOriginString();
-	whatBuffer = oss.str();
-	return whatBuffer.c_str();
-}
-
-const char* Window::Exception::GetType() const noexcept
-{
-	return "Chili Window Exception";
-}
-
-std::string Window::Exception::TranslateErrorCode(HRESULT hr) noexcept
-=======
 std::string Window::Exception::TranslateErrorCode( HRESULT hr ) noexcept
->>>>>>> 4a2e05f (d3d hresult handling / window nogfx)
 {
 	char* pMsgBuf = nullptr;
 	// windows will allocate memory for err string and make our pointer point to it
@@ -366,11 +335,7 @@ HRESULT Window::HrException::GetErrorCode() const noexcept
 
 std::string Window::HrException::GetErrorDescription() const noexcept
 {
-<<<<<<< HEAD
-	return TranslateErrorCode(hr);
-=======
 	return Exception::TranslateErrorCode( hr );
->>>>>>> 4a2e05f (d3d hresult handling / window nogfx)
 }
 
 
