@@ -2,6 +2,8 @@
 #include "dxerr.h"
 #include <sstream>
 
+namespace wrl = Microsoft::WRL;
+
 //compiler sets linker settings for us
 #pragma comment(lib,"d3d11.lib")
 
@@ -57,36 +59,14 @@ Graphics::Graphics(HWND hWnd)
 		0,
 		D3D11_SDK_VERSION,
 		&sd,
-		&m_pSwap,
-		&m_pDevice,
+		&pSwap,
+		&pDevice,
 		nullptr,
-		&m_pContext
-	));
+		&pContext));
 	// gain access to texture subresource in swap chain (back buffer)
-	ID3D11Resource* pBackBuffer = nullptr;
-	GFX_THROW_INFO(m_pSwap->GetBuffer(0, __uuidof( ID3D11Resource ), reinterpret_cast< void** >( &pBackBuffer )));
-	GFX_THROW_INFO(m_pDevice->CreateRenderTargetView(pBackBuffer, nullptr, &m_pTarget));
-	pBackBuffer->Release();
-}
-
-Graphics::~Graphics()
-{
-	if( m_pTarget != nullptr )
-	{
-		m_pTarget->Release();
-	}
-	if( m_pContext != nullptr )
-	{
-		m_pContext->Release();
-	}
-	if( m_pSwap != nullptr )
-	{
-		m_pSwap->Release();
-	}
-	if( m_pDevice != nullptr )
-	{
-		m_pDevice->Release();
-	}
+	wrl::ComPtr<ID3D11Resource> pBackBuffer = nullptr;
+	GFX_THROW_INFO(pSwap->GetBuffer(0, __uuidof( ID3D11Resource ),&pBackBuffer ));
+	GFX_THROW_INFO(pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, &pTarget));
 }
 
 void Graphics::EndFrame()
@@ -96,11 +76,11 @@ void Graphics::EndFrame()
 	infoManager.Set();
 #endif
 
-	if( FAILED(hr = m_pSwap->Present(1u, 0u)) )
+	if( FAILED(hr = pSwap->Present(1u, 0u)) )
 	{
 		if( hr == DXGI_ERROR_DEVICE_REMOVED )
 		{
-			throw GFX_DEVICE_REMOVED_EXCEPT(m_pDevice->GetDeviceRemovedReason());
+			throw GFX_DEVICE_REMOVED_EXCEPT(pDevice->GetDeviceRemovedReason());
 		}
 		else
 		{
@@ -112,7 +92,7 @@ void Graphics::EndFrame()
 void Graphics::ClearBuffer(float red, float green, float blue) noexcept
 {
 	const float color[] = { red,green,blue,1.0f };
-	m_pContext->ClearRenderTargetView(m_pTarget, color);
+	pContext->ClearRenderTargetView(pTarget.Get(), color);
 }
 
 
