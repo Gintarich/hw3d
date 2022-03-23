@@ -8,14 +8,11 @@ public:
 		std::uniform_real_distribution<float>& adist,
 		std::uniform_real_distribution<float>& ddist,
 		std::uniform_real_distribution<float>& odist,
-<<<<<<< HEAD
 		std::uniform_real_distribution<float>& rdist);
 	void Update(float dt) noexcept override;
-=======
 		std::uniform_real_distribution<float>& rdist,
 		std::uniform_real_distribution<float>& bdist );
 	void Update( float dt ) noexcept override;
->>>>>>> eaec951 (demonstration assortment of drawables)
 	DirectX::XMMATRIX GetTransformXM() const noexcept override;
 private:
 	// positional
