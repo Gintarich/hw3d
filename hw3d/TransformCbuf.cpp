@@ -21,3 +21,4 @@ void TransformCbuf::Bind(Graphics& gfx) noexcept
 }
 
 std::unique_ptr<VertexConstantBuffer<DirectX::XMMATRIX>> TransformCbuf::pVcbuf;
+// We need to declare static members
