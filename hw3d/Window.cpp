@@ -21,6 +21,7 @@
 #include <sstream>
 #include "resource.h"
 #include "Mouse.h"
+#include "WindowsThrowMacros.h"
 
 
 // Window Class Stuff
