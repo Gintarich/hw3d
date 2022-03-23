@@ -1,10 +1,9 @@
-struct VSOut
+cbuffer CBuf
 {
-	float3 color : Color;
-	float4 pos : SV_Position;
+	float4 face_colors[6];
 };
 
-float4 main(float3 color : Color) : SV_Target
+float4 main(uint tid : SV_PrimitiveID) : SV_Target
 {
-	return float4(color,1.0f);
+	return face_colors[tid/2];
 }

@@ -26,6 +26,11 @@ void App::DoFrame()
 	// Test code
 	const float c = sin(m_timer.Peek()) / 2.0f + 0.5f;
 	m_wnd.Gfx().ClearBuffer(c, c, 1.0f);
+	m_wnd.Gfx().DrawTestTriangle(
+		-m_timer.Peek(),
+		0.0f,
+		0.0f
+	);
 	m_wnd.Gfx().DrawTestTriangle( 
 		m_timer.Peek(),
 		m_wnd.mouse.GetPosX() / 400.0f - 1.0f,
