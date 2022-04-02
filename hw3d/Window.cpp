@@ -87,7 +87,7 @@ Window::Window(int width, int height, const char* name)
 	// create window & get hWnd
 	hWnd = CreateWindow(
 		WindowClass::GetName(), name,
-		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
+		WS_CAPTION | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_THICKFRAME | WS_SYSMENU,
 		CW_USEDEFAULT, CW_USEDEFAULT, wr.right - wr.left, wr.bottom - wr.top,
 		nullptr, nullptr, WindowClass::GetInstance(), this
 	);
@@ -125,13 +125,13 @@ std::optional<int> Window::ProcessMessages() noexcept
 		if( msg.message == WM_QUIT )
 		{
 			// return optional wrapping int (arg to PostQuitMessage is in wparam) signals quit
-			return (int)msg.wParam;
+			return ( int )msg.wParam;
 		}
 		// TranslateMessage will post auxilliary WM_CHAR messages from key msgs
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
-	
+
 	// wParam here is the value passed to PostQuitMessage
 	return {};
 }
@@ -184,6 +184,10 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 		case WM_KILLFOCUS:
 			kbd.ClearState();
 			break;
+		case WM_SIZE:
+			width = LOWORD(lParam);
+			height = HIWORD(lParam);
+			break;
 			/****************** KEYBOARD MESSAGES ******************/
 			//| this means either keydown or syskeyup
 		case WM_KEYDOWN:
@@ -221,7 +225,7 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 			// not in client -> log move / maintain capture if button down
 			else
 			{
-				if( wParam & (MK_LBUTTON | MK_RBUTTON) )
+				if( wParam & ( MK_LBUTTON | MK_RBUTTON ) )
 				{
 					mouse.OnMouseMove(pt.x, pt.y);
 				}
@@ -283,7 +287,7 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 
 
 // Window Exception Stuff
-std::string Window::Exception::TranslateErrorCode( HRESULT hr ) noexcept
+std::string Window::Exception::TranslateErrorCode(HRESULT hr) noexcept
 {
 	char* pMsgBuf = nullptr;
 	// windows will allocate memory for err string and make our pointer point to it
@@ -305,19 +309,19 @@ std::string Window::Exception::TranslateErrorCode( HRESULT hr ) noexcept
 	return errorString;
 }
 
-
-Window::HrException::HrException( int line,const char* file,HRESULT hr ) noexcept
+Window::HrException::HrException(int line, const char* file, HRESULT hr) noexcept
 	:
-	Exception( line,file ),
-	hr( hr )
-{}
+	Exception(line, file),
+	hr(hr)
+{
+}
 
 const char* Window::HrException::what() const noexcept
 {
 	std::ostringstream oss;
 	oss << GetType() << std::endl
 		<< "[Error Code] 0x" << std::hex << std::uppercase << GetErrorCode()
-		<< std::dec << " (" << (unsigned long)GetErrorCode() << ")" << std::endl
+		<< std::dec << " (" << ( unsigned long )GetErrorCode() << ")" << std::endl
 		<< "[Description] " << GetErrorDescription() << std::endl
 		<< GetOriginString();
 	whatBuffer = oss.str();
@@ -336,9 +340,8 @@ HRESULT Window::HrException::GetErrorCode() const noexcept
 
 std::string Window::HrException::GetErrorDescription() const noexcept
 {
-	return Exception::TranslateErrorCode( hr );
+	return Exception::TranslateErrorCode(hr);
 }
-
 
 const char* Window::NoGfxException::GetType() const noexcept
 {
