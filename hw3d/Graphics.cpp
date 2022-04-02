@@ -60,7 +60,7 @@ Graphics::Graphics(HWND hWnd)
 	GFX_THROW_INFO(pSwap->GetBuffer(0, __uuidof( ID3D11Resource ), &pBackBuffer));
 	GFX_THROW_INFO(pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, &pTarget));
 
-	// create depth stensil state
+	// create depth stencil state
 	D3D11_DEPTH_STENCIL_DESC dsDesc = { };
 	dsDesc.DepthEnable = TRUE;
 	dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;

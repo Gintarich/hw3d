@@ -99,7 +99,7 @@ Window::Window(int width, int height, const char* name)
 	// newly created windows start off as hidden
 	ShowWindow(hWnd, SW_SHOWDEFAULT);
 	// create graphics object
-	m_pGfx = std::make_unique<Graphics>(hWnd);
+	pGfx = std::make_unique<Graphics>(hWnd);
 }
 
 Window::~Window()
@@ -138,11 +138,11 @@ std::optional<int> Window::ProcessMessages() noexcept
 
 Graphics& Window::Gfx()
 {
-	if( !m_pGfx )
+	if( !pGfx )
 	{
 		throw CHWND_NOGFX_EXCEPT();
 	}
-	return *m_pGfx;
+	return *pGfx;
 }
 
 LRESULT CALLBACK Window::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
