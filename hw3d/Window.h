@@ -76,6 +76,8 @@ public:
 	void SetTitle( const std::string& title );
 	static std::optional<int> ProcessMessages() noexcept;
 	Graphics& Gfx();
+	//**********My Functions*************
+	int AspectRatio() { return height/width; }
 private:
 	static LRESULT CALLBACK HandleMsgSetup( HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam ) noexcept;
 	static LRESULT CALLBACK HandleMsgThunk( HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam ) noexcept;
