@@ -31,6 +31,11 @@ bool Mouse::RightIsPressed() const noexcept
 	return m_rightIsPressed;
 }
 
+bool Mouse::WheelIsPressed() const noexcept
+{
+	return m_wheelIsPressed;
+}
+
 Mouse::Event Mouse::Read() noexcept
 {
 	if( m_buffer.size() > 0u )

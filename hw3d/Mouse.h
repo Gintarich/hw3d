@@ -94,6 +94,7 @@ public:
 	bool IsInWindow() const noexcept;
 	bool LeftIsPressed() const noexcept;
 	bool RightIsPressed() const noexcept;
+	bool WheelIsPressed() const noexcept;
 	Mouse::Event Read() noexcept;
 	bool IsEmpty() const noexcept
 	{

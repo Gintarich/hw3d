@@ -64,7 +64,10 @@ App::App()
 
 void App::DoFrame()
 {
-
+	while( !wnd.mouse.IsEmpty() )
+	{
+		
+	}
 	const auto dt = timer.Mark();
 	wnd.Gfx().ClearBuffer( 0.07f,0.0f,0.12f );
 	for( auto& d : drawables )
