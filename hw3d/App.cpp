@@ -6,6 +6,7 @@
 #include <algorithm>
 #include "ChiliMath.h"
 
+namespace dx = DirectX;
 
 App::App()
 	:
@@ -59,16 +60,32 @@ App::App()
 	drawables.reserve( nDrawables );
 	std::generate_n( std::back_inserter( drawables ),nDrawables,f );
 
-	wnd.Gfx().SetProjection( DirectX::XMMatrixPerspectiveLH( 1.0f, 3.0f/4.0f ,0.5f,40.0f ) );
+	wnd.Gfx().SetProjection( dx::XMMatrixPerspectiveLH( 1.0f, 3.0f/4.0f ,0.5f,40.0f ) );
 }
 
 void App::DoFrame()
 {
+	const auto dt = timer.Mark();
+
+	wnd.Gfx().SetCamera(cam.GetMatrix());
+
+	//-----------Camera stuff starts--------------
 	while( !wnd.mouse.IsEmpty() )
 	{
-		
+		auto e = wnd.mouse.Read();
+		// Camera move logic(when mouse middle button is pressed)
+		if( wnd.mouse.WheelIsPressed() && e.GetType() == Mouse::Event::Type::Move && wnd.kbd.KeyIsPressed(VK_CONTROL) )
+		{
+			
+		}
+		else if( wnd.mouse.WheelIsPressed() && e.GetType() == Mouse::Event::Type::Move )
+		{
+			cam.MoveCamera(wnd.mouse.GetTranslationX(), wnd.mouse.GetTranslationY());
+		}
 	}
-	const auto dt = timer.Mark();
+	//-----------Camera stuff ends----------------
+
+
 	wnd.Gfx().ClearBuffer( 0.07f,0.0f,0.12f );
 	for( auto& d : drawables )
 	{

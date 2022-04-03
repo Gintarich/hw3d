@@ -1,22 +1,21 @@
 #pragma once
 #include "Graphics.h"
-#include "Mouse.h"
-#include "Keyboard.h"
+#include "Window.h"
 
 class Camera
 {
 public: 
-	Camera(Graphics& gfx, const Mouse& mouse, const Keyboard& kbd) 
-		: m_gfx(gfx),m_mouse(mouse),m_kbd(kbd)
-	{ }
-	void ProcesCamera()
-	{
-		
-	}
-	
-
+	DirectX::XMMATRIX GetMatrix() const noexcept;
+	void MoveCamera(float x, float y) noexcept;
+	void ZoomCamera(float z) noexcept;
+	void Reset() noexcept;
 private:
-	Graphics& m_gfx;
-	const Mouse& m_mouse;
-	const Keyboard& m_kbd;
+	float xcoord = 0.0f;
+	float ycoord = 0.0f;
+	float r = 20.0f;
+	float theta = 0.0f;
+	float phi = 0.0f;
+	float pitch = 0.0f;
+	float yaw = 0.0f;
+	float roll = 0.0f;
 };

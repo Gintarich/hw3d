@@ -16,6 +16,16 @@ int Mouse::GetPosY() const noexcept
 	return m_y;
 }
 
+int Mouse::GetTranslationX() const noexcept
+{
+	return m_dx;
+}
+
+int Mouse::GetTranslationY() const noexcept
+{
+	return m_dy;
+}
+
 bool Mouse::IsInWindow() const noexcept
 {
 	return m_isInWindow;
