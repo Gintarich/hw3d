@@ -17,6 +17,8 @@ public:
 			RRelease,
 			WheelUp,
 			WheelDown,
+			WheelPressed,
+			WheelUnpressed,
 			Move,
 			Enter,
 			Leave,
@@ -26,6 +28,7 @@ public:
 		Type m_type;
 		bool m_leftIsPressed;
 		bool m_rightIsPressed;
+		bool m_wheelIsPressed;
 		int m_x;
 		int m_y;
 	public:
@@ -34,6 +37,7 @@ public:
 			m_type(Type::Invalid),
 			m_leftIsPressed(false),
 			m_rightIsPressed(false),
+			m_wheelIsPressed(false),
 			m_x(0),
 			m_y(0)
 		{ }
@@ -42,6 +46,7 @@ public:
 			m_type(type),
 			m_leftIsPressed(parent.m_leftIsPressed),
 			m_rightIsPressed(parent.m_rightIsPressed),
+			m_wheelIsPressed(parent.m_wheelIsPressed),
 			m_x(parent.m_x),
 			m_y(parent.m_y)
 		{ }
@@ -74,6 +79,10 @@ public:
 		{
 			return m_rightIsPressed;
 		}
+		bool WheelIsPressed() const noexcept
+		{
+			return m_wheelIsPressed;
+		}
 	};
 public:
 	Mouse() = default;
@@ -99,6 +108,8 @@ private:
 	void OnLeftReleased(int x, int y)noexcept;
 	void OnRightPressed(int x, int y)noexcept;
 	void OnRightReleased(int x, int y)noexcept;
+	void OnWheelPressed(int x, int y)noexcept;
+	void OnWheelReleased(int x, int y)noexcept;
 	void OnWheelUp(int x, int y)noexcept;
 	void OnWheelDown(int x, int y)noexcept;
 	void TrimBuffer() noexcept;
@@ -107,8 +118,11 @@ private:
 	static constexpr unsigned int m_bufferSize = 16u;
 	int m_x;
 	int m_y;
+	int m_dx;
+	int m_dy;
 	bool m_leftIsPressed = false;
 	bool m_rightIsPressed = false;
+	bool m_wheelIsPressed = false;
 	bool m_isInWindow = false;
 	int m_wheelDeltaCarry = 0;
 	std::queue<Event> m_buffer;

@@ -52,6 +52,8 @@ void Mouse::Flush() noexcept
 
 void Mouse::OnMouseMove(int x, int y) noexcept
 {
+	m_dx = m_x - x;
+	m_dy = m_y - y;
 	m_x = x;
 	m_y = y;
 	m_buffer.push({ Mouse::Event::Type::Move, *this });
@@ -101,6 +103,22 @@ void Mouse::OnRightReleased(int x, int y) noexcept
 	m_rightIsPressed = false;
 
 	m_buffer.push({ Mouse::Event::Type::RRelease, *this });
+	TrimBuffer();
+}
+
+void Mouse::OnWheelPressed(int x, int y) noexcept
+{
+	m_wheelIsPressed = true;
+
+	m_buffer.push({ Mouse::Event::Type::WheelPressed, *this });
+	TrimBuffer();
+}
+
+void Mouse::OnWheelReleased(int x, int y) noexcept
+{
+	m_wheelIsPressed = false;
+
+	m_buffer.push({ Mouse::Event::Type::WheelUnpressed, *this });
 	TrimBuffer();
 }
 
